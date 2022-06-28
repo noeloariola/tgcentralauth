@@ -60,6 +60,27 @@ class TgJwtService {
         }
         return false;
     }
+    // return false or User
+    function provideAccess(string $token, string $secret) {
+        $header = $this->getHeader($token);
+        $payload = $this->getPayload($token);
+        
+        if($header === null || $payload === null) return 'false';
+        
+        $verifyToken = $this->generate($header, $payload, $secret, 0);
+        $user = User::where('email', $payload['email'])->first();
+        if($token === $verifyToken) {
+            return [
+                'failed' => false,
+                'errors' => [],
+                'data' => [
+                    'token' => $verifyToken,
+                    'user' => $user
+                ]
+            ];
+        }
+        return false;
+    }
     function userInfo(string $token) {
         $payload = $this->getPayload($token);
         return User::where('email', $payload['email'])->first();
@@ -74,6 +95,7 @@ class TgJwtService {
         $payload = json_decode(base64_decode($array[1]), true);
         return $payload;
     }
+    
     public function revoke(string $token) {
         
     }

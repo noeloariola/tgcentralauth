@@ -31,6 +31,22 @@ class TGauthCtrl extends Controller
         }
         return response()->json(["errors" => ['Invalid email address!']]);
     }
+    public function getDetails(Request $request) {
+        $refreshToken = null;
+        // return response()->json($request->all());
+        switch ($request->app_title) {
+            case 'RECRUITMENT': 
+                $refreshToken = JWT::provideAccess($request->app_access_token, config('secret_keys.recruitment_app_key'));
+                break;
+            case 'CBT':
+                $refreshToken = JWT::provideAccess($request->app_access_token, "dsff23f35254rewdfwedf");
+                break;
+            default:
+                $refreshToken = response()->json(['resources provided is invalid']);
+                break;
+        }
+        return response()->json($refreshToken);
+    }
     public function isValidToken(Request $request) {
         return response()->json(['jwt' => JWT::isValidToken($request->tg_jwt)]);
     }

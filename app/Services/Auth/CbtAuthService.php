@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\Facades\Hash;
 use Ramsey\Collection\Map\AssociativeArrayMap;
 
-class AuthService {
+class CbtAuthService {
     public $credentials = [];
     private $user;
 
@@ -44,7 +44,7 @@ class AuthService {
         $payload = [
             'email' => $this->user->email
         ];
-        $jwt = JWT::generate(config('jwt.header'), $payload, env('RECRUITMENT_APP_ACCESS_KEY'));
+        $jwt = JWT::generate(config('jwt.header'), $payload, env('CBT_APP_ACCESS_KEY'));
         $user = $this->user->makeHidden(['created_at', 'updated_at']);
         $user->role = [];
         return [

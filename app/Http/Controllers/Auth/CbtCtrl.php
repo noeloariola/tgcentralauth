@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Services\Auth\JWT;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
-use App\Services\Auth\AuthService;
+use App\Services\Auth\CbtAuthService;
 use Illuminate\Http\Request;
 
 class CbtCtrl extends Controller
@@ -25,7 +25,7 @@ class CbtCtrl extends Controller
         if(!JWT::verify($request->app_access_token, config('secret_keys.cbt_app_key'))) {
             return response()->json(['errors' => ['invalid app key!']]);
         }
-        $authService = new AuthService($request->email, $request->password);
+        $authService = new CbtAuthService($request->email, $request->password);
         if($authService->checkEmail()) {
             return response()->json($authService->attempLogin());
         }

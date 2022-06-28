@@ -22,6 +22,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 $router->post('/login', [TGauthCtrl::class, 'login']);
+$router->get('/auth/refresh_token', [TGauthCtrl::class, 'getDetails']);
+
 $router->post('/user/create', [TGauthCtrl::class, 'createUser']);
 
 
