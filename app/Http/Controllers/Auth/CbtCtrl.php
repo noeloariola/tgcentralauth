@@ -54,7 +54,7 @@ class CbtCtrl extends Controller
             $payload = [
                 'email' => $user->email
             ];
-            $jwt = JWT::generate(config('jwt.header'), $payload, env('SECRET_KEY'));
+            $jwt = JWT::generate(config('jwt.header'), $payload, config('secret_keys.cbt_app_key'));
             return response()->json([
                 'failed' => false,
                 'errors' => [],
